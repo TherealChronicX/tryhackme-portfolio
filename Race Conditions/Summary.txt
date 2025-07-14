@@ -1,0 +1,72 @@
+Race Conditions Room Summary – TryHackMe
+----------------------------------------
+
+Task 1 – Introduction
+---------------------
+- Learned what race conditions are and how they impact web applications.
+- Race conditions occur when the outcome depends on the timing of events — like accessing/modifying shared data across threads.
+- Exploiting race conditions can let attackers do things like:
+  - Reuse gift cards
+  - Over-withdraw money
+  - Apply discount codes multiple times
+- Tools like Burp Suite help us test this by controlling request timing.
+
+Task 2 – Multi-Threading
+------------------------
+- Reviewed key concepts:
+  - Program: Set of instructions (like a coffee recipe)
+  - Process: Running instance of a program
+  - Thread: Lightweight unit of execution within a process
+- Threads share memory and can run in parallel.
+- If threads access shared data without proper synchronization (e.g., locks), we get race conditions.
+- Ran example Python code showing threads racing to modify a variable.
+
+Task 3 – Causes of Race Conditions
+----------------------------------
+- Learned common causes:
+  1. Parallel Execution – web servers handling concurrent requests
+  2. Database Operations – two updates to same record at once
+  3. 3rd Party Libraries – poor handling of concurrent requests
+- A key vulnerability is TOCTOU (Time-of-Check to Time-of-Use).
+
+Task 4 – Web Application Architecture
+-------------------------------------
+- Reviewed client-server model and 3-tier web app design:
+  1. Presentation (browser)
+  2. Application (server logic)
+  3. Data (DB layer)
+- Walked through state transitions for:
+  - Money transfers (checking balance → transferring)
+  - Applying coupons (validating code → recalculating total)
+- Important concept: There’s a brief “window” where we can send multiple requests before the state is finalized — this is where the race condition happens.
+
+Final Challenge – Race Condition Exploit
+----------------------------------------
+Goal: Get an account balance above $1000 by abusing a bank app at http://MACHINE_IP:5000
+
+Steps Taken:
+1. Scoped all 3 user accounts – each started with $100.
+2. Chose **Zavodni (6282)** as the target to boost balance.
+3. Logged in with another account (e.g. Rasser or Warunki).
+4. Made a transfer of $100 and intercepted it with Burp Suite.
+5. Sent the POST request to Repeater.
+6. Duplicated it many times (used 50–100+ requests).
+7. Used **Send Group → Parallel** to hit the server at the same time.
+8. Checked Zavodni’s balance – saw it jump up (e.g. to $622.50 or higher).
+9. Repeated again to exceed $1000 and grab the flag.
+
+Bonus Learning:
+- ✅ First tested sending a large amount ($622.5) and duplicated it — this method worked.
+- ✅ Also went back and tested smaller multiple transactions ($100 each) — this method was slower but more discreet.
+- Realized both strategies work — large is fast, small is stealthy.
+
+Tools Used:
+-----------
+- Burp Suite Repeater
+- Send Group → Parallel
+- Manual duplication of HTTP requests
+- Browser to verify account balances
+
+Final Outcome:
+--------------
+Successfully exploited a real-world race condition to transfer more money than allowed, boosting one user’s balance over $1000. Collected the flag and proved understanding of parallel request timing and logic flaws in banking systems.

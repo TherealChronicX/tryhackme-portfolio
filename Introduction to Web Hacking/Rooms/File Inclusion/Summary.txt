@@ -1,0 +1,21 @@
+Task 1: Introduction
+I got a full overview of file inclusion vulnerabilities — mainly how they happen when a web app includes files from user input without proper validation. Learned about LFI, RFI, and directory traversal as the main types. This task had no questions, just setup knowledge.
+
+Task 2: Deploy the VM
+This task was just about spinning up the lab environment and making sure the server was reachable. No answers needed here either, just a reminder to wait a few mins for the machine to boot.
+
+Task 3: Path Traversal
+This helped me understand how attackers use ../ to move outside of the web root and access system files like /etc/passwd or boot.ini. I also learned about Windows-specific file targets and that file_get_contents() is one vulnerable function when user input isn’t sanitized.
+
+Task 4: Local File Inclusion (LFI)
+I practiced using GET parameters to load local files via the include() function. By changing the values in the lang parameter, I was able to test for and read sensitive files. I saw how directory structure affects payloads and how even slight input changes (like adding ../../) can reveal different results.
+
+Task 5: LFI Continued (Filter Bypasses & Null Bytes)
+This task focused on more advanced techniques like null byte injection (%00), using /.., and even double-dot bypasses (....//). I learned how to read error messages to guess the web server's directory structure and how filters can be bypassed by understanding how input is processed.
+
+Task 6: Remote File Inclusion (RFI)
+This one took it a step further — instead of loading files locally, I learned how to inject external URLs to include remote PHP scripts. If allow_url_fopen is enabled on the server, it’s game over. That’s how you can move from file reading to full-on Remote Command Execution (RCE).
+
+Task 7: Remediation
+Here I learned what developers should do to prevent file inclusion bugs: things like sanitizing input, turning off dangerous PHP settings (allow_url_include), using whitelists for file paths, and keeping error messages from leaking info.
+

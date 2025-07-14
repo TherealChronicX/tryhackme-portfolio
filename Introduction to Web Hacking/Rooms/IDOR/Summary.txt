@@ -1,0 +1,20 @@
+What I Learned – IDOR Room
+
+Task 3: Encoded IDs
+Base64 encoding came up in this task. I learned it’s one of the most common ways websites “hide” values in a URL. It’s usually easy to spot — often ends with == or just looks a little weird.
+I tested it by using a site like base64decode.org to decode the string, changed the info (like a username or number), then re-encoded it using base64encode.org. After sending that new version in the request, I could see if the app gave me a different result. Super helpful method for testing simple IDOR setups.
+
+Task 4: Hashed IDs
+This one was a bit more difficult. Instead of encoding, the ID was hashed — meaning you can’t just decode it. But I learned that sometimes the app is just hashing something predictable, like an ID number using MD5.
+For example, the number 123 might be turned into something like 202cb962ac59075b964b07152d234b70. If you know the pattern or algorithm being used, you might still be able to test different inputs and see if it works.
+
+Task 5: Unpredictable IDs
+If the ID can’t be decoded or guessed, I learned another way to test for IDOR is by creating two accounts. I made a second account, grabbed the ID from one, and tried to access it while logged into the other.
+If I could see content that belongs to the other account, that means the app isn’t checking permissions — which is a valid IDOR vulnerability, even if the ID looks random or hard to guess.
+
+Task 7: Practical IDOR Example
+This one brought everything together. I found that the site was using an endpoint like /api/v1/customer?id=5 to pull in my account info. I changed the number to 1 and 3 just to see what would happen, and the page updated to show someone else’s username and email.
+That confirmed the IDOR — the app was trusting the ID in the URL without checking who was requesting it.
+
+Tools Used: 
+Firefox Web Developer Tool

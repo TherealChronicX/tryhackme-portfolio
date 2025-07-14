@@ -1,0 +1,27 @@
+
+
+Intro - This XSS room gave me a full walkthrough of how attackers exploit Cross-Site Scripting vulnerabilities, how payloads work, and the different ways they sneak JavaScript into web apps. It was hands-on, and I learned how each version of XSS works in the real world.
+
+
+
+Task 1 – What is a Payload?
+I learned that a payload is basically the JavaScript code you want to run inside a browser — it’s what makes the attack do something. There are different kinds of payloads depending on what you want to achieve. Some are just proof-of-concept like popping an alert, while others are used to steal user sessions, log keystrokes, or even change a user's settings silently. The key is that each scenario needs a different kind of tweak to get the code to execute depending on where the input lands on the page.
+
+Task 2 – Reflected XSS
+Reflected XSS happens when a website takes your input and immediately shows it on the page without checking it first. I practiced finding those reflection points, like in URLs or form fields, and learned to inject scripts there. These attacks are often delivered through links — so the victim clicks a link, and boom — the attacker’s script runs in their browser.
+
+Task 3 – Stored XSS
+Stored XSS is a bit more serious. Instead of reflecting right away, the attacker’s payload gets stored in the website’s backend, like in blog comments or messages. Then every time someone else views that content, the payload runs. This could steal someone’s session or redirect them to another site. I learned to test areas where data is saved and shown to others — like comments, usernames, or listings.
+
+Task 4 – DOM-Based XSS
+DOM XSS is a bit trickier. The attack doesn’t even go to the server — it happens completely in the browser. I learned how a site’s own JavaScript can grab input from things like the URL hash or location and drop it into the page. If that input isn’t handled safely, an attacker can inject scripts without touching the backend at all. I had to look at how the frontend JavaScript code works to understand where input might be injected.
+
+Task 5 – Blind XSS
+Blind XSS was super interesting. It works like stored XSS, but you don’t get to see the result yourself. Instead, you put your payload somewhere like a contact form, and when a staff member or admin opens it in their dashboard, the payload fires. I had to set up a way to catch that — like logging cookie data to a separate location. This kind of attack really shows how XSS can work behind the scenes.
+
+Task 6 – Executing Payloads in Real Pages
+This task walked me through six different scenarios where I had to test how the payload appears in the page and figure out how to break out of whatever HTML or JavaScript it's wrapped in. Each level gave a different challenge — escaping from input tags, textareas, inside JavaScript, and even dealing with filters that tried to block keywords. I had to get creative and try things like closing tags early or using other attributes to sneak my code in. It helped me understand how flexible attackers need to be when crafting a payload.
+
+Task 7 – Real Blind XSS Exploit
+This was the big one — setting up a real blind XSS attack. I learned how to create a fake support ticket with a payload inside it, then used a tool to listen for a connection when someone opened it. When the admin viewed my fake ticket, their browser sent back their session cookies without them knowing. This made everything I learned click — how attackers can use even harmless-looking forms to gain access, and how dangerous XSS really is if the site doesn’t sanitize inputs.
+
